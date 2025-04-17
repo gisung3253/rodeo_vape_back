@@ -79,8 +79,19 @@ const InventoryManage = {
   // 카테고리 목록 조회
   getCategories: async () => {
     try {
-      const [rows] = await pool.query('SELECT DISTINCT category FROM inventory ORDER BY category');
-      return rows.map(row => row.category);
+      // 기존 쿼리 대신 카테고리를 특정 순서로 가져오기
+      const predefinedCategories = ['입호흡액상', '폐호흡액상', '폐호흡기기', '입호흡기기', '코일팟', '기타'];
+      
+      // 현재 DB에 있는 카테고리도 함께 가져오기 (새로운 카테고리가 추가될 수 있으므로)
+      const [dbCategories] = await pool.query('SELECT DISTINCT category FROM inventory WHERE is_deleted = FALSE');
+      
+      // DB에서 가져온 카테고리 중 미리 정의된 카테고리에 없는 것들
+      const dbOnlyCategories = dbCategories
+        .map(row => row.category)
+        .filter(category => !predefinedCategories.includes(category));
+      
+      // 미리 정의된 순서에 DB에만 있는 카테고리 추가
+      return [...predefinedCategories, ...dbOnlyCategories];
     } catch (error) {
       throw error;
     }
