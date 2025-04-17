@@ -17,10 +17,10 @@ const monthlyRoutes = require('./routes/monthlyRoutes');
 
 // 미들웨어 설정
 app.use(cors({
-    origin: ['https://your-vercel-frontend.vercel.app', 'https://rodeo-vape.duckdns.org', 'http://localhost:5173'],
+    origin: ['https://rodeo-vape.vercel.app', 'https://rodeo-vape.duckdns.org', 'http://localhost:5173'],
     credentials: true
   }));
-  
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
