@@ -9,7 +9,7 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME,
 });
 
-async function testConnection() {
+const testConnection = async () =>{
   try {
     const connection = await pool.getConnection();
     console.log('✅ MySql DB Connected!');
