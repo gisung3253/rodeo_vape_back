@@ -1,9 +1,8 @@
-// server.js
 const express = require('express');
 const cors = require('cors');
-const { testConnection } = require('./config/db');
 require('dotenv').config();
 const auth = require('./middleware/auth');
+require('./config/db');
 
 const app = express();
 const PORT = process.env.PORT;
@@ -32,7 +31,7 @@ app.get('/', (req, res) => {
 });
 
 // 데이터베이스 연결 테스트
-testConnection();
+
 
 //api
 app.use('/api/auth', authRoutes);
