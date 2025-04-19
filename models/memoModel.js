@@ -1,4 +1,3 @@
-// models/memoModel.js
 const { pool } = require('../config/db');
 
 const Memo = {

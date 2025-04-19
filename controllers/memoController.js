@@ -1,4 +1,3 @@
-// controllers/memoController.js
 const Memo = require('../models/memoModel');
 
 const memoController = {
