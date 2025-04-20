@@ -1,4 +1,3 @@
-// models/inventoryModel.js
 const { pool } = require('../config/db');
 
 const Inventory = {
@@ -38,7 +37,7 @@ const Inventory = {
     }
   },
 
-  // 재고 부족 항목 조회 (각 카테고리별 임계값 기준)
+  // 재고 부족 항목 조회 
   getLowStockItems: async () => {
     try {
       // 카테고리별 임계값 설정: 코일팟은 10개 이하, 나머지는 5개 이하
@@ -56,7 +55,7 @@ const Inventory = {
       
       // 재고 부족 항목 필터링
       return rows.filter(item => {
-        const threshold = thresholds[item.category] || 5; // 기본값은 5
+        const threshold = thresholds[item.category];
         return item.quantity <= threshold;
       });
     } catch (error) {
