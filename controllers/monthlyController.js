@@ -7,10 +7,8 @@ const monthlyController = {
       
       const currentDate = new Date();
       const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 11, 1);
-      
       const monthlyData = fillMissingMonths(rawMonthlyData, startDate, currentDate);
       
-      // 이번 달 매출 조회
       const currentMonthSales = await MonthlyModel.getCurrentMonthData();
       
       // 연간 총 매출 계산
@@ -22,11 +20,10 @@ const monthlyController = {
         { total_sales: 0 }
       );
       
-      // 응답 데이터 구성
       res.json({
         monthlyData: monthlyData.map(item => ({
           ...item,
-          total_sales: Number(item.total_sales) // 확실히 숫자로 변환
+          total_sales: Number(item.total_sales) 
         })),
         summary: {
           annualTotal: Number(annualTotal),
