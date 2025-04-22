@@ -1,12 +1,11 @@
 # RODEO 전자담배 판매관리 시스템 - 백엔드
 
-전자담배 판매점의 재고, 판매, 메모 관리를 위한 백엔드 API 서버입니다.
+전자담배 가게에서 편하게 재고관리 하기위해 만들어본 판매관리 시스템입니다
+실제 사용중인 웹이라 따로 링크는 걸지 않았습니다.
 
 ## 목차
 - [기술 스택](#기술-스택)
-- [프로젝트 구조](#프로젝트-구조)
 - [데이터베이스 스키마](#데이터베이스-스키마)
-- [백엔드 아키텍처](#백엔드-아키텍처)
 - [API 문서](#api-문서)
 - [주요 기능](#주요-기능)
 
@@ -22,7 +21,6 @@
   - cors: CORS 정책 처리
   - mysql2: MySQL 연결 및 쿼리
 
-## 프로젝트 구조
 
 ## 데이터베이스 스키마
 
@@ -123,10 +121,6 @@ erDiagram
     }
 ```
 
-## 백엔드 아키텍처
-
-#### 전체 시스템 아키텍처
-
 ```mermaid
 flowchart TD
     Client[클라이언트 앱\nReact]
@@ -144,74 +138,7 @@ flowchart TD
         Models --> DB
     end
 ```
-sequenceDiagram
-    participant C as 클라이언트
-    participant R as 라우터
-    participant M as 미들웨어
-    participant Co as 컨트롤러
-    participant Mo as 모델
-    participant D as 데이터베이스
-    
-    C->>R: HTTP 요청
-    R->>M: 요청 전달
-    M->>M: 인증 및 권한 확인
-    M->>Co: 검증된 요청
-    Co->>Mo: 데이터 작업 요청
-    Mo->>D: SQL 쿼리
-    D-->>Mo: 쿼리 결과
-    Mo-->>Co: 데이터 반환
-    Co-->>C: HTTP 응답 (JSON)
 
-    graph TD
-    Server[Server.js] --> App[App.js]
-    App --> Routes[라우트 모듈]
-    App --> Middlewares[미들웨어]
-    
-    Routes --> AuthRoutes[인증 라우트]
-    Routes --> InventoryRoutes[재고 라우트]
-    Routes --> SalesRoutes[판매 라우트]
-    Routes --> MemoRoutes[메모 라우트]
-    Routes --> MonthlyRoutes[통계 라우트]
-    
-    AuthRoutes --> AuthController[인증 컨트롤러]
-    InventoryRoutes --> InventoryController[재고 컨트롤러]
-    SalesRoutes --> SalesController[판매 컨트롤러]
-    MemoRoutes --> MemoController[메모 컨트롤러]
-    MonthlyRoutes --> MonthlyController[통계 컨트롤러]
-    
-    AuthController --> UserModel[사용자 모델]
-    InventoryController --> InventoryModel[재고 모델]
-    SalesController --> SalesModel[판매 모델]
-    MemoController --> MemoModel[메모 모델]
-    MonthlyController --> SalesModel
-    
-    UserModel --> Database[(MySQL DB)]
-    InventoryModel --> Database
-    SalesModel --> Database
-    MemoModel --> Database
-
-
-## 아키텍처 설명
-
-위 제안은 프로젝트 구조 섹션을 확장하여 다음 세 가지 아키텍처 다이어그램을 포함시켰습니다:
-
-1. **전체 시스템 아키텍처**: 클라이언트, API 서버, 데이터베이스 사이의 관계와 주요 백엔드 구성 요소를 시각화합니다.
-
-2. **요청 처리 흐름**: HTTP 요청이 프론트엔드에서 백엔드로 들어와 처리되고 응답이 반환되는 과정을 시간 순서로 보여줍니다.
-
-3. **모듈 간 의존성**: 백엔드 모듈들이 어떻게 상호 연결되어 있는지 계층적으로 보여줍니다.
-
-이러한 다이어그램은 코드의 구조와 흐름에 대한 시각적 이해를 제공하며, 개발자들이 프로젝트의 아키텍처를 빠르게 파악할 수 있도록 돕습니다. GitHub에서 Mermaid 문법이 자동으로 렌더링되므로 이 다이어그램들은 README에서 시각적으로 표시됩니다.## 아키텍처 설명
-
-위 제안은 프로젝트 구조 섹션을 확장하여 다음 세 가지 아키텍처 다이어그램을 포함시켰습니다:
-
-1. **전체 시스템 아키텍처**: 클라이언트, API 서버, 데이터베이스 사이의 관계와 주요 백엔드 구성 요소를 시각화합니다.
-
-2. **요청 처리 흐름**: HTTP 요청이 프론트엔드에서 백엔드로 들어와 처리되고 응답이 반환되는 과정을 시간 순서로 보여줍니다.
-
-3. **모듈 간 의존성**: 백엔드 모듈들이 어떻게 상호 연결되어 있는지 계층적으로 보여줍니다.
-
-이러한 다이어그램은 코드의 구조와 흐름에 대한 시각적 이해를 제공하며, 개발자들이 프로젝트의 아키텍처를 빠르게 파악할 수 있도록 돕습니다. GitHub에서 Mermaid 문법이 자동으로 렌더링되므로 이 다이어그램들은 README에서 시각적으로 표시됩니다.
 ## API 문서
 
 ### 인증 관련
