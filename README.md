@@ -49,7 +49,7 @@ flowchart LR
     Router -.-> AuthM
     AuthM -.-> API
     API -.-> Client
-
+```
 
 ## 데이터베이스 스키마
 
