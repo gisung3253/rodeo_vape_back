@@ -7,8 +7,6 @@
 - [프로젝트 구조](#프로젝트-구조)
 - [데이터베이스 스키마](#데이터베이스-스키마)
 - [API 문서](#api-문서)
-- [설치 및 실행 방법](#설치-및-실행-방법)
-- [환경 변수 설정](#환경-변수-설정)
 - [주요 기능](#주요-기능)
 
 ## 기술 스택
@@ -76,6 +74,54 @@
 
 ### ER 다이어그램
 
+```mermaid
+erDiagram
+    USERS ||--o{ MEMOS : creates
+    USERS ||--o{ SALES : manages
+    INVENTORY ||--o{ SALE_ITEMS : "sold as"
+    SALES ||--|{ SALE_ITEMS : contains
+    
+    USERS {
+        int id PK
+        string username
+        string password
+        timestamp created_at
+    }
+    
+    INVENTORY {
+        int id PK
+        string name
+        string category
+        int price
+        int quantity
+        timestamp created_at
+    }
+    
+    SALES {
+        int id PK
+        date sale_date
+        time sale_time
+        int total_amount
+        string payment_method
+        string note
+    }
+    
+    SALE_ITEMS {
+        int id PK
+        int sale_id FK
+        int inventory_id FK
+        int quantity
+        int price
+    }
+    
+    MEMOS {
+        int id PK
+        string content
+        timestamp created_at
+        timestamp updated_at
+    }
+```
+
 ## API 문서
 
 ### 인증 관련
@@ -108,14 +154,34 @@
 - `PUT /api/memos/:id` - 메모 수정
 - `DELETE /api/memos/:id` - 메모 삭제
 
-## 설치 및 실행 방법
+## 주요 기능
 
-### 요구사항
-- Node.js 14.0 이상
-- MySQL 5.7 이상
+### 1. 인증 시스템
+- JWT 기반 사용자 인증
+- 로그인/로그아웃 관리
+- 보호된 라우트에 미들웨어 적용
+- 비밀번호 암호화 저장 (bcrypt 사용)
 
-### 설치 단계
-1. 저장소 클론
-```bash
-git clone https://github.com/yourusername/rodeo.git
-cd rodeo/back
+### 2. 재고 관리
+- 카테고리별 재고 조회 및 필터링
+- 재고 부족 알림 시스템
+- 카테고리별 임계치 설정 (코일팟: 10개 이하, 기타: 5개 이하)
+- 재고 검색 및 필터링
+- 재고 등록/수정/삭제 기능
+
+### 3. 판매 관리
+- 일별 판매 기록 관리
+- 판매 시 자동 재고 차감
+- 결제 방법별 판매 내역 관리 (카드/현금/이체)
+- 판매 기록 수정 및 삭제
+
+### 4. 통계 및 보고서
+- 월별 매출 집계 및 데이터 제공
+- 최고 매출 월 정보 제공
+- 연간 총매출 및 당월 매출 정보
+
+### 5. 메모 시스템
+- 중요 정보 기록을 위한 메모 기능
+- 메모 작성, 수정, 삭제 기능
+- 작성일 기준 정렬
+
