@@ -5,6 +5,7 @@
 
 ## 목차
 - [기술 스택](#기술-스택)
+- [구조](#구조-(MVC))
 - [데이터베이스 스키마](#데이터베이스-스키마)
 - [API 문서](#api-문서)
 - [주요 기능](#주요-기능)
@@ -20,6 +21,34 @@
   - dotenv: 환경변수 관리
   - cors: CORS 정책 처리
   - mysql2: MySQL 연결 및 쿼리
+
+## 구조 (MVC)
+```mermaid
+flowchart LR
+    Client[클라이언트 앱\nReact]
+    API[API 서버\nExpress.js]
+    AuthM[인증 미들웨어]
+    Router[라우터]
+    Controllers[컨트롤러]
+    Models[모델]
+    DB[(데이터베이스\nMySQL)]
+    
+    Client <--> |HTTP 요청/응답\nJWT 인증| API
+    
+    %% 요청 처리 흐름
+    API --> AuthM
+    AuthM --> Router
+    Router --> Controllers
+    Controllers --> Models
+    Models --> DB
+    
+    %% 응답 흐름 (선택적으로 추가 가능)
+    DB -.-> Models
+    Models -.-> Controllers
+    Controllers -.-> Router
+    Router -.-> AuthM
+    AuthM -.-> API
+    API -.-> Client
 
 
 ## 데이터베이스 스키마
@@ -119,24 +148,6 @@ erDiagram
         timestamp created_at
         timestamp updated_at
     }
-```
-
-```mermaid
-flowchart TD
-    Client[클라이언트 앱\nReact]
-    API[API 서버\nExpress.js]
-    DB[(데이터베이스\nMySQL)]
-    
-    Client <--> |HTTP 요청/응답\nJWT 인증| API
-    API <--> |CRUD 작업| DB
-    
-    subgraph "백엔드"
-        API --> AuthM[인증 미들웨어]
-        API --> Router[라우터]
-        Router --> Controllers[컨트롤러]
-        Controllers --> Models[모델]
-        Models --> DB
-    end
 ```
 
 ## API 문서
